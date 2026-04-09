@@ -15,6 +15,21 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+app.get('/', (req, res) => {
+  res.json({
+    success: true,
+    message: 'SRDS API is running',
+    endpoints: {
+      health: '/api/health',
+      classes: '/api/classes',
+      students: '/api/students',
+      upload: '/api/upload',
+      email: '/api/email',
+      settings: '/api/settings',
+    },
+  });
+});
+
 app.use('/api/classes', classRoutes);
 app.use('/api/students', studentRoutes);
 app.use('/api/upload', uploadRoutes);
