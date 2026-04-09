@@ -6,6 +6,7 @@ import {
   getEmailStatus,
   retryFailed,
   resetClassEmails,
+  getApiUrl,
 } from '../services/api';
 import toast from 'react-hot-toast';
 import { Plus, Edit2, Trash2, Upload, Eye, ArrowLeft, RefreshCw, FileText } from 'lucide-react';
@@ -189,7 +190,7 @@ export default function Students() {
                           <div className="flex items-center gap-1.5">
                             <FileText size={13} className="text-emerald-500 flex-shrink-0" />
                             <a
-                              href={`/api/students/${student._id}/download`}
+                              href={getApiUrl(`/students/${student._id}/download`)}
                               target="_blank"
                               rel="noopener noreferrer"
                               className="text-blue-600 text-xs hover:underline"

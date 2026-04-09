@@ -1,6 +1,32 @@
 import axios from 'axios';
 
-const apiBaseUrl = import.meta.env.VITE_API_BASE_URL || '/api';
+const productionServerOrigin = 'https://zivi-srds-hxrl.vercel.app';
+
+const normalizeBaseUrl = (value) => value.replace(/\/$/, '');
+
+const getApiBaseUrl = () => {
+  const configuredBaseUrl = import.meta.env.VITE_API_BASE_URL;
+
+  if (configuredBaseUrl) {
+    return normalizeBaseUrl(configuredBaseUrl);
+  }
+
+  if (typeof window !== 'undefined') {
+    const { hostname } = window.location;
+    if (hostname === 'localhost' || hostname === '127.0.0.1') {
+      return '/api';
+    }
+  }
+
+  return `${productionServerOrigin}/api`;
+};
+
+const apiBaseUrl = getApiBaseUrl();
+
+const getServerOrigin = () => apiBaseUrl.replace(/\/api$/, '');
+
+export const getApiUrl = (path) => `${apiBaseUrl}${path.startsWith('/') ? path : `/${path}`}`;
+export const getServerUrl = (path = '') => `${getServerOrigin()}${path}`;
 
 const api = axios.create({
   baseURL: apiBaseUrl,
