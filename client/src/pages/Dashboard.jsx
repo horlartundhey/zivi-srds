@@ -11,8 +11,8 @@ export default function Dashboard() {
     const load = async () => {
       try {
         const [classRes, logRes] = await Promise.all([getClasses(), getDailyLog()]);
-        setClasses(classRes.data.data);
-        setLogs(logRes.data.data);
+        setClasses(Array.isArray(classRes.data?.data) ? classRes.data.data : []);
+        setLogs(Array.isArray(logRes.data?.data) ? logRes.data.data : []);
       } catch {
         // silently fail on dashboard
       } finally {
