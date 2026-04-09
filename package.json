@@ -1,0 +1,12 @@
+{
+  "name": "zivi-srds",
+  "version": "1.0.0",
+  "description": "School Result Distribution System",
+  "scripts": {
+    "server": "npm run dev --prefix server",
+    "client": "npm run dev --prefix client",
+    "build": "npm run build --prefix client",
+    "install:all": "npm install --prefix server && npm install --prefix client",
+    "vercel-build": "npm run build"
+  }
+}
