@@ -5,8 +5,7 @@ School Result Distribution System.
 ## Structure
 
 - `client/`: Vite React frontend
-- `server/`: Node.js backend and shared Express app
-- `api/`: Vercel serverless entrypoint
+- `server/`: Node.js backend
 
 ## Local development
 
@@ -27,15 +26,29 @@ If you want the local cron scheduler enabled, set `ENABLE_EMAIL_CRON=true` in `s
 
 ## Vercel deployment
 
-This repository is configured to deploy from the workspace root on Vercel:
+Deploy `client` and `server` as two separate Vercel projects.
 
-- the React app is built from `client/`
-- the API is served through `api/[...path].js`
-- SPA routes are rewritten to `client/dist/index.html`
-- queued emails are processed inside the request lifecycle so they complete on serverless
-- the daily queue resume runs through Vercel Cron against `/api/email/process`
+### Client deployment
 
-### Required Vercel environment variables
+Use the `client/` directory as the Vercel root.
+
+- Vercel config: `client/vercel.json`
+- build command: `npm run build`
+- output directory: `dist`
+
+Add this environment variable to the client project:
+
+- `VITE_API_BASE_URL=https://your-server-project.vercel.app/api`
+
+### Server deployment
+
+Use the `server/` directory as the Vercel root.
+
+- Vercel config: `server/vercel.json`
+- API entrypoint: `server/api/[...path].js`
+- daily queue resume runs through Vercel Cron against `/api/email/process`
+
+Required environment variables for the server project:
 
 - `MONGODB_URI`
 - `BREVO_SMTP_USER`
@@ -47,6 +60,4 @@ This repository is configured to deploy from the workspace root on Vercel:
 - `APP_URL`
 - `CRON_SECRET`
 
-Set `APP_URL` to your production domain, for example `https://your-project.vercel.app` or your custom domain.
-
-`CRON_SECRET` should be set in Vercel so scheduled requests to `/api/email/process` are authenticated.
+Set `APP_URL` to the deployed server domain, for example `https://your-server-project.vercel.app`.

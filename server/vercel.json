@@ -1,0 +1,22 @@
+{
+  "version": 2,
+  "functions": {
+    "api/[...path].js": {
+      "includeFiles": [
+        "config/**",
+        "jobs/**",
+        "models/**",
+        "routes/**",
+        "services/**",
+        "app.js",
+        "bootstrap.js"
+      ]
+    }
+  },
+  "crons": [
+    {
+      "path": "/api/email/process",
+      "schedule": "0 8 * * *"
+    }
+  ]
+}
